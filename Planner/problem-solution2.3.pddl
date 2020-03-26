@@ -1,4 +1,4 @@
-(define (problem travelling-22)
+(define (problem travelling-23)
     (:domain travelling)
     (:objects 
         A - object
@@ -36,13 +36,14 @@
 		(Air A C)
 		(Air C B)
 		(Air B A)
+		(Air A B)
 		(IsAgent Agent)
-		(At Car D)
-        (At Agent D)
+		(At Car E)
+        (At Agent E)
     )
     (:goal (and 
-        (Visited E)
+        (Visited D)
 		(At Agent B)
-		(At Car A)))
+		(At Car C)))
 )
 

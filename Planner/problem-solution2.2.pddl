@@ -36,6 +36,7 @@
 		(Air A C)
 		(Air C B)
 		(Air B A)
+		(Air A B)
 		(IsAgent Agent)
 		(At Car E)
         (At Agent E)

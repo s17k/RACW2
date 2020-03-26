@@ -1,3 +1,6 @@
+---------- Part 1 - Modelling the Domain --------
+
+
 1.1) Describing the World State
 
 Predicates:
@@ -67,3 +70,10 @@ The plan that led us to a solution (can be constructed back from the goal state)
 2. Fly(Agent, A, C)
 3. Fly(Agent, C, B)
 4. Visit(Agent, B)
+
+
+---------- Part 4 - Theoretical Extension --------
+Each traveller's preferences should be representable by a computable function of a solution.
+Therefore, in order to have a truly general solver, it is likely that we would need to explore all the possible solutions. But, It is often the case that the cost function is a sum of the costs of taken actions. When that is true, we could employ an algorithm similar to Backwards State Space Search that expands nodes in the same order as Dijkstra’s algorithm. This way, we can avoid exploring more costly branches. A*-like algorithm could also be used with a domain-specific heuristic.
+
+

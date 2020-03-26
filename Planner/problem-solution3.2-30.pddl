@@ -1,4 +1,4 @@
-(define (problem travelling-21)
+(define (problem travelling-32-30)
     (:domain travelling)
     (:objects 
         A - object
@@ -40,8 +40,12 @@
 		(IsAgent Agent)
 		(At Car E)
         (At Agent E)
+		(= (total-cost) 0)
     )
-    (:goal 
-        (Visited C))
+    (:goal (and 
+        (Visited D)
+		(Visited B)
+		(<= (total-cost) 30))
+	)
 )
 

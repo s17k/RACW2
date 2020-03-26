@@ -1,4 +1,4 @@
-(define (problem travelling-21)
+(define (problem travelling-33)
     (:domain travelling)
     (:objects 
         A - object
@@ -11,7 +11,9 @@
 		H - object
 		I - object
 		Agent - person
-		Car - vehicle
+		Volvo - vehicle
+		Toyota - vehicle
+		Renault - vehicle
     )
     
     (:init
@@ -38,10 +40,22 @@
 		(Air B A)
 		(Air A B)
 		(IsAgent Agent)
-		(At Car E)
         (At Agent E)
+		(At Volvo E)
+		(At Toyota C)
+		(At Renault A)
+		(RentalAgencyOf Volvo E)
+		(RentalAgencyOf Toyota C)
+		(RentalAgencyOf Renault A)
+		(= (total-cost) 0)
     )
-    (:goal 
-        (Visited C))
+    (:goal (and 
+        (Visited D)
+		(At Agent E)
+		(not (Hired Volvo))
+		(not (Hired Toyota))
+		(not (Hired Renault))
+		(<= (total-cost) 40))
+	)
 )
 
