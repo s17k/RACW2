@@ -43,21 +43,21 @@ Starting state: road(A,E) ^ road(E,A) ^ road(A,I) ^ road(I,A) ^ road(I,H) ^ road
 Note: in order not to confuse variables from different actions that have the same name, I add ','',''' to their names (parameters of each action have the same number of 's).
 
 1st step - visited(B):
-	Relevant actions: The only action that has an effect that unifies with our current goal state (visited(B)) is Visit(who, place) with the effect being visited(place) and most general unifier being {place/B} (only relevant action). There are also no effects of this action that contradict our current goal state, so we can select it.
-	We now need to update our current goal state - add the precondition, remove the effect. This yields agent(who) ^ at(who, B) ^ ~visited(B).
+    Relevant actions: The only action that has an effect that unifies with our current goal state (visited(B)) is Visit(who, place) with the effect being visited(place) and most general unifier being {place/B} (only relevant action). There are also no effects of this action that contradict our current goal state, so we can select it.
+    We now need to update our current goal state - add the precondition, remove the effect. This yields agent(who) ^ at(who, B) ^ ~visited(B).
 
 2nd step: agent(who) ^ at(who, B) ^ ~visited(B):
-	Relevant actions: Fly(who',from',to') Drive(who',in',from',to'). 
-	We choose Fly(who', from', to') with MGU being {who'/who, to'/B}.
-	New goal state: agent(who) ^ ~visited(B) ^ at(who,from') ^ air(from',B)
+    Relevant actions: Fly(who',from',to') Drive(who',in',from',to'). 
+    We choose Fly(who', from', to') with MGU being {who'/who, to'/B}.
+    New goal state: agent(who) ^ ~visited(B) ^ at(who,from') ^ air(from',B)
 
 3rd step: agent(who) ^ ~visited(B) ^ at(who,from') ^ air(from',B)
-	Relevant actions: Fly(who'', from'', to'') , Drive(who'',in'',from'',to'')
-	We choose Drive(who'', in'', from'', to'') with MGU being {who''/who, to''/from'}.
-	New goal state: agent(who) ^ ~visited(B) ^ air(from',B) ^ at(who, from'') ^ road(from'', from') ^ car(in'') ^ at(in'', from'')
+    Relevant actions: Fly(who'', from'', to'') , Drive(who'',in'',from'',to'')
+    We choose Drive(who'', in'', from'', to'') with MGU being {who''/who, to''/from'}.
+    New goal state: agent(who) ^ ~visited(B) ^ air(from',B) ^ at(who, from'') ^ road(from'', from') ^ car(in'') ^ at(in'', from'')
 
 4th step: agent(who) ^ ~visited(B) ^ air(from',B) ^ at(who, from'') ^ road(from'', from') ^ car(in'') ^ at(in'', from'')
-	Now, if we apply the substiution {who/Agent, from'/A, from''/E, in''/Car} then we get agent(Agent) ^ ~visited(B) ^ air(A,B) ^ at(Agent, E) ^ road(E,A) ^ car(Car) ^ at(Car, E). This gives us a statement which is entailed by the starting state (as it is included in it). Therefore, we can finish the algorithm.
+    Now, if we apply the substiution {who/Agent, from'/A, from''/E, in''/Car} then we get agent(Agent) ^ ~visited(B) ^ air(A,B) ^ at(Agent, E) ^ road(E,A) ^ car(Car) ^ at(Car, E). This gives us a statement which is entailed by the starting state (as it is included in it). Therefore, we can finish the algorithm.
 
 The plan that led us to a solution (can be constructed back from the goal state):
 1. Drive(Agent, Car, E, A)

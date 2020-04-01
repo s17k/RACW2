@@ -2,16 +2,16 @@
     (:requirements :adl)
     
     (:types 
-		vehicle
-		person
-	)
+        vehicle
+        person
+    )
     
     (:predicates 
         (Road ?x - object ?y - object)
         (Air ?x - object ?y - object)
-		(At ?x - object ?y - object)
-		(Visited ?x - object)
-		(IsAgent ?x - person)
+        (At ?x - object ?y - object)
+        (Visited ?x - object)
+        (IsAgent ?x - person)
     )
     
     (:action DRIVE
@@ -20,23 +20,23 @@
         :effect (and (not(At ?who ?from)) (At ?who ?to) (not (At ?in ?from)) (At ?in ?to))
     )
 
-	(:action BUS
-		:parameters (?who - person ?from - object ?to - object)
+    (:action BUS
+        :parameters (?who - person ?from - object ?to - object)
         :precondition (and (At ?who ?from) (Road ?from ?to))
         :effect (and (not(At ?who ?from)) (At ?who ?to))
-	)
+    )
      
-	(:action FLY
+    (:action FLY
         :parameters (?who - person ?from - object ?to - object)
         :precondition (and (At ?who ?from) (Air ?from ?to))
         :effect (and (not(At ?who ?from)) (At ?who ?to))
     ) 
    
-	(:action VISIT
-		:parameters (?who - person ?place - object)
-		:precondition (and (IsAgent ?who) (At ?who ?place) (not (Visited ?place)))
-		:effect (Visited ?place)
-	)
+    (:action VISIT
+        :parameters (?who - person ?place - object)
+        :precondition (and (IsAgent ?who) (At ?who ?place) (not (Visited ?place)))
+        :effect (Visited ?place)
+    )
 
 )
 
