@@ -61,9 +61,8 @@ Note: in order not to confuse variables from different actions that have the sam
 
 The plan that led us to a solution (can be constructed back from the goal state):
 1. Drive(Agent, Car, E, A)
-2. Fly(Agent, A, C)
-3. Fly(Agent, C, B)
-4. Visit(Agent, B)
+2. Fly(Agent, A, B)
+3. Visit(Agent, B)
 
 
 ---------- Part 4 - Theoretical Extension --------
