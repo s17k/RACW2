@@ -7,12 +7,12 @@ Predicates:
  -- road(x,y) if there is a road between x and y
  -- air(x,y) if there are flights between x and y
  -- at(x,y) if x is at location y
- -- visited(x) if x was visited by the agent
+ -- visited(x) if x was visited by an agent
  -- car(x) if x is a car
  -- agent(x) if x is an agent
 
 Initial state:
-road(A,E) ^ road(E,A) ^ road(A,I) ^ road(I,A) ^ road(I,H) ^ road(H,I) ^ road(H,B) ^ road(B,H) ^ road(H,G) ^ road(G,H) ^ road(G,F) ^ road(F,G) ^ road(C,F) ^ road(F,C) ^ road(F,D) ^ road(D,F) ^ road(C,D) ^ road(D,C) ^ air(A,C) ^ air(C,B) ^ air(B,A) ^ car(Car) ^ At(Car,E) ^ agent(Agent) ^ At(Agent, E)
+road(A,E) ^ road(E,A) ^ road(A,I) ^ road(I,A) ^ road(I,H) ^ road(H,I) ^ road(H,B) ^ road(B,H) ^ road(H,G) ^ road(G,H) ^ road(G,F) ^ road(F,G) ^ road(C,F) ^ road(F,C) ^ road(F,D) ^ road(D,F) ^ road(C,D) ^ road(D,C) ^ air(A,C) ^ air(C,B) ^ air(B,A) ^ air(A,B) ^ car(Car) ^ at(Car,E) ^ agent(Agent) ^ at(Agent, E)
 
 Goal state:
 visited(D) ^ at(Agent, E)
@@ -38,9 +38,9 @@ Note: we don't need to add a condition "from != to" as long as we don't add road
 1.3) Backwards state space search
 
 Initial goal state: visited(B)
-Starting state: road(A,E) ^ road(E,A) ^ road(A,I) ^ road(I,A) ^ road(I,H) ^ road(H,I) ^ road(H,B) ^ road(B,H) ^ road(H,G) ^ road(G,H) ^ road(G,F) ^ road(F,G) ^ road(C,F) ^ road(F,C) ^ road(F,D) ^ road(D,F) ^ road(C,D) ^ road(D,C) ^ air(A,C) ^ air(C,B) ^ air(B,A) ^ car(Car) ^ At(Car,E) ^ agent(Agent) ^ At(Agent, E)
+Starting state: road(A,E) ^ road(E,A) ^ road(A,I) ^ road(I,A) ^ road(I,H) ^ road(H,I) ^ road(H,B) ^ road(B,H) ^ road(H,G) ^ road(G,H) ^ road(G,F) ^ road(F,G) ^ road(C,F) ^ road(F,C) ^ road(F,D) ^ road(D,F) ^ road(C,D) ^ road(D,C) ^ air(A,C) ^ air(C,B) ^ air(B,A) ^ air(A,B) ^ car(Car) ^ at(Car,E) ^ agent(Agent) ^ at(Agent, E)
 
-Note: in order not to confuse variables from different actions that have the same name, I add ','',''' to their names.
+Note: in order not to confuse variables from different actions that have the same name, I add ','',''' to their names (parameters of each action have the same number of 's).
 
 1st step - visited(B):
 	Relevant actions: The only action that has an effect that unifies with our current goal state (visited(B)) is Visit(who, place) with the effect being visited(place) and most general unifier being {place/B} (only relevant action). There are also no effects of this action that contradict our current goal state, so we can select it.
@@ -53,17 +53,11 @@ Note: in order not to confuse variables from different actions that have the sam
 
 3rd step: agent(who) ^ ~visited(B) ^ at(who,from') ^ air(from',B)
 	Relevant actions: Fly(who'', from'', to'') , Drive(who'',in'',from'',to'')
-	We choose Fly(who'', from'', to'') with MGU being {who''/who, to''/from'}.
-	New goal state: agent(who) ^ ~visited(B) ^ air(from',B) ^ at(who, from'') ^ air(from'', from')
+	We choose Drive(who'', in'', from'', to'') with MGU being {who''/who, to''/from'}.
+	New goal state: agent(who) ^ ~visited(B) ^ air(from',B) ^ at(who, from'') ^ road(from'', from') ^ car(in'') ^ at(in'', from'')
 
-4th step: agent(who) ^ ~visited(B) ^ air(from', B) ^ at(who, from'') ^ air(from'', from')
-	Relevant actions: Fly(who''', from''', to''') , Drive(who''',in''',from''',to''')
-	We choose Drive(who''', in''', from''', to''') with MGU being {who'''/who, to'''/from''}.
-	New goal state: agent(who) ^ ~visited(B) ^ air(from', B) ^ air(from'', from') ^ at(who, from''') ^ car(in''') ^ at(in''', from''') ^ road(from''', from'')
-
-
-5th step: agent(who) ^ ~visited(B) ^ air(from', B) ^ air(from'', from') ^ at(who, from''') ^ car(in''') ^ at(in''', from''') ^ road(from''', from'')
-	Now, if we apply the substiution {who/Agent, from'/C, from''/A, from'''/E, in'''/Car} then we get agent(Agent) ^ ~visited(B) ^ air(C,B) ^ air(A,C) ^ at(Agent, E) ^ car(Car) ^ at(Car, E) ^ road(E,A), this gives us a statement which is entailed by the starting state (as it is included in it). Therefore, we can finish the algorithm.
+4th step: agent(who) ^ ~visited(B) ^ air(from',B) ^ at(who, from'') ^ road(from'', from') ^ car(in'') ^ at(in'', from'')
+	Now, if we apply the substiution {who/Agent, from'/A, from''/E, in''/Car} then we get agent(Agent) ^ ~visited(B) ^ air(A,B) ^ at(Agent, E) ^ road(E,A) ^ car(Car) ^ at(Car, E). This gives us a statement which is entailed by the starting state (as it is included in it). Therefore, we can finish the algorithm.
 
 The plan that led us to a solution (can be constructed back from the goal state):
 1. Drive(Agent, Car, E, A)
